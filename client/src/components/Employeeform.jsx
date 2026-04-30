@@ -231,7 +231,7 @@ const age=today.getFullYear()-dob.getFullYear();
           </div>
 
           <div className="col-12 col-md-6">
-            <label className="form-label mt-2">Date of </label>
+            <label className="form-label mt-2">Date of Joining</label>
        <input type="date" className="form-control mt-2" placeholder="Date of joining" value={form.date_of_joining} onChange={e=>{setForm({...form, date_of_joining:e.target.value })
           setErrors({ ...errors, date_of_joining: "" });
           
