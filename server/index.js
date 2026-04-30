@@ -10,5 +10,5 @@ app.use(express.json());
 app.use("/api",employeeRoutes)
 
 app.listen(PORT,()=>{
-    console.log("server is listening at 5007")
+    console.log(`server is listening at ${PORT}`)
 })
