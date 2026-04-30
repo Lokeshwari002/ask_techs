@@ -178,10 +178,10 @@ const age=today.getFullYear()-dob.getFullYear();
 
   <div className="row g-2 mb-3">
     <div className="col-12 col-md-6">
-  <input className="form-control mb-1" placeholder="Code" value={form.code} onChange={e =>{setForm({...form,code:e.target.value})
+  <input className="form-control" placeholder="Code" value={form.code} onChange={e =>{setForm({...form,code:e.target.value})
               setErrors({...errors,code:"" })
               }}/>
-  {errors.name && <small className="text-danger">{errors.name}</small>}
+  {errors.name && <small className="text-danger">{errors.code}</small>}
 
           </div>
 
