@@ -181,7 +181,7 @@ const age=today.getFullYear()-dob.getFullYear();
   <input className="form-control mt-2 mb-1" placeholder="Code" value={form.code} onChange={e =>{setForm({...form,code:e.target.value})
               setErrors({...errors,code:"" })
               }}/>
-  {errors.name && <small className="text-danger">{errors.code}</small>}
+  {errors.code && <small className="text-danger">{errors.code}</small>}
 
           </div>
 
@@ -222,7 +222,8 @@ const age=today.getFullYear()-dob.getFullYear();
 
   <div className="row g-2 mb-3">
           <div className="col-12 col-md-6">
-            <input type="date" className="form-control mt-2" placeholder="Date Of Birth" value={form.date_of_birth} onChange={e=>{setForm({...form,date_of_birth:e.target.value})
+            <label className="form-label mt-2">Date of Birth</label>
+           <input type="date" className="form-control mt-2" placeholder="Date Of Birth" value={form.date_of_birth} onChange={e=>{setForm({...form,date_of_birth:e.target.value})
                      setErrors({ ...errors, date_of_birth: "" });
           }}/>
 {errors.date_of_birth && <small className="text-danger">{errors.date_of_birth}</small>}
@@ -230,7 +231,8 @@ const age=today.getFullYear()-dob.getFullYear();
           </div>
 
           <div className="col-12 col-md-6">
-            <input type="date" className="form-control mt-2" placeholder="Date of joining" value={form.date_of_joining} onChange={e=>{setForm({...form, date_of_joining:e.target.value })
+            <label className="form-label mt-2">Date of </label>
+       <input type="date" className="form-control mt-2" placeholder="Date of joining" value={form.date_of_joining} onChange={e=>{setForm({...form, date_of_joining:e.target.value })
           setErrors({ ...errors, date_of_joining: "" });
           
           }}/>
@@ -267,13 +269,13 @@ const age=today.getFullYear()-dob.getFullYear();
 
       
 <div className="table-responsive mt-3">
-  <table className="table table-bordered table-striped">
+  <table className="table table-bordered table-striped text-center" style={{ minWidth: "900px" }}>
     <thead className="table-dark">
              <tr><th>Name</th>
               <th>Dept</th>
               <th>Designation</th>
-              <th>DOB</th>
-              <th>DOJ</th>
+              <th className="d-none d-md-table-cell">DOB</th>
+              <th className="d-none d-md-table-cell">DOJ</th>
               <th>Gender</th>
               <th>Salary</th>
               <th>Actions</th>
@@ -286,8 +288,8 @@ const age=today.getFullYear()-dob.getFullYear();
   <td>{emp.name}</td>
   <td>{emp.department}</td>
   <td>{emp.designation}</td>
-  <td>{emp.date_of_birth?.slice(0, 10)}</td>
-  <td>{emp.date_of_joining?.slice(0, 10)}</td>
+  <td className="d-none d-md-table-cell">{emp.date_of_birth?.slice(0, 10)}</td>
+  <td className="d-none d-md-table-cell">{emp.date_of_joining?.slice(0, 10)}</td>
   <td>{emp.gender}</td>
   <td>{emp.salary}</td>
   <td><div className="d-flex gap-2">
