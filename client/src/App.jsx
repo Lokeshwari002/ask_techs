@@ -4,8 +4,7 @@ import Employeeform from './components/Employeeform'
 function App() {
   return (
     <div>
-     
-      <Employeeform/>
+     <Employeeform/>
       </div>
   )
 }

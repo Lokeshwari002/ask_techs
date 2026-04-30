@@ -19,7 +19,8 @@ function Employeeform() {
   const[departments,setDepartments]=useState([]);
     const[designations,setDesignations]=useState([]);
     const[employees,setEmployees]=useState([]);
-      const[editId,setEditId]=useState(null);
+    const [errors, setErrors] = useState({});
+    const[editId,setEditId]=useState(null);
 
   useEffect(()=>{
     axios.get(`${base_url}/fetchallDept`)
@@ -36,6 +37,7 @@ function Employeeform() {
     const deptId=e.target.value;
 
     setForm({...form,dept_id:deptId,designation_id:""});
+    setErrors({...errors,dept_id:"" });
 
     if(deptId){
       const res=await axios.get(`${base_url}/fetchdesignByDepart/${deptId}`)
@@ -47,24 +49,27 @@ function Employeeform() {
 
  
   const validate=()=>{
+    let newErrors = {};
     if(!/^\d{1,6}$/.test(form.code)){
-      return "Code invalid"
+           newErrors.code="Code must be number(max 6 digits)";
+
     }
     if(!/^[A-Za-z ]{1,50}$/.test(form.name)){
-      return "Name invalid"
+            newErrors.name = "Name must contain only letters";
+
     }
     if(!form.dept_id){
-      return "Select department"
+      newErrors.dept_id = "Select department";
     } 
     if(!form.designation_id){
-      return "Select designation"
+      newErrors.designation_id="Select designation"
     }
 
     if(!form.date_of_birth){
-      return "Select DOB"
+      newErrors.date_of_birth="Select DOB"
     }
     if(!form.date_of_joining){
-      return "Select DOJ"
+      newErrors.date_of_joining="Select DOJ"
     }
 
   const dob=new Date(form.date_of_birth);
@@ -72,28 +77,30 @@ function Employeeform() {
    const today=new Date();
 
 if(dob>today){
-      return "DOB cannot be future"
+      newErrors.date_of_birth="DOB cannot be future"
     }
 const age=today.getFullYear()-dob.getFullYear();
     if(age<18){
-      return "Must be 18+"
+      newErrors.date_of_birth="Must be 18+"
     }
 
     if(doj>today){
-      return "DOJ cannot be future"
+      newErrors.date_of_joining="DOJ cannot be future"
     }
 
     if(!/^\d{1,7}(\.\d{1,2})?$/.test(form.salary)){
-      return "Salary invalid"
+      newErrors.salary= "Salary invalid"
     }
-   return null;
+   return newErrors;
   };
 
   const handleSubmit=async(e)=>{
     e.preventDefault();
 
-    const error=validate();
-    if(error) return alert(error);
+    const validationErrors=validate();
+    setErrors(validationErrors);
+
+        if(Object.keys(validationErrors).length>0) return;
 
     const payload={...form,
       dept_id: Number(form.dept_id),
@@ -120,6 +127,7 @@ const age=today.getFullYear()-dob.getFullYear();
       gender:"",
       salary:""
     });
+    setErrors({})
   fetchEmployees();
   };
 
@@ -158,6 +166,7 @@ const age=today.getFullYear()-dob.getFullYear();
       gender:"",
       salary:""
     });
+    setErrors({})
   setEditId(null);
   setDesignations([]);
   };
@@ -169,48 +178,71 @@ const age=today.getFullYear()-dob.getFullYear();
 
   <div className="row g-2 mb-3">
     <div className="col-12 col-md-6">
-  <input className="form-control" placeholder="Code" value={form.code} onChange={e => setForm({ ...form,code:e.target.value})}/>
+  <input className="form-control mb-1" placeholder="Code" value={form.code} onChange={e =>{setForm({...form,code:e.target.value})
+              setErrors({...errors,code:"" })
+              }}/>
+  {errors.name && <small className="text-danger">{errors.name}</small>}
+
           </div>
 
   <div className="col-12 col-md-6">
-    <input className="form-control" placeholder="Name" value={form.name} onChange={e => setForm({ ...form,name:e.target.value})}/>
+    <input className="form-control mt-2 mb-1" placeholder="Name" value={form.name} onChange={e => {setForm({ ...form,name:e.target.value})
+              setErrors({ ...errors, name: "" })
+  }}/>
+    {errors.name && <small className="text-danger">{errors.name}</small>}
           </div>
         </div>
 
 
 <div className="row g-2 mb-3">
     <div className="col-12 col-md-6">
-            <select className="form-select" value={form.dept_id} onChange={handleDeptChange}>
+            <select className="form-select mt-2" value={form.dept_id} onChange={handleDeptChange}>
               <option value="">Select Department</option>
               {departments.map(d=>(
                 <option key={d.id} value={d.id}>{d.name}</option>
               ))}
             </select>
+            {errors.dept_id && <small className="text-danger">{errors.dept_id}</small>}
+
+
           </div>
 
   <div className="col-12 col-md-6">
-    <select className="form-select" value={form.designation_id} onChange={e=>setForm({...form,designation_id:e.target.value})}>
+    <select className="form-select mt-2" value={form.designation_id} onChange={e=>{setForm({...form,designation_id:e.target.value})
+          setErrors({ ...errors, designation_id: "" });
+          }}>
   <option value="">Select Designation</option>
         {designations.map(d=>(
           <option key={d.id} value={d.id}>{d.name}</option>
     ))}
             </select>
-          </div>
+{errors.designation_id && <small className="text-danger">{errors.designation_id}</small>}
+</div>
         </div>
 
   <div className="row g-2 mb-3">
           <div className="col-12 col-md-6">
-            <input type="date" className="form-control" placeholder="Date Of Birth" value={form.date_of_birth} onChange={e=>setForm({...form,date_of_birth:e.target.value})}/>
+            <input type="date" className="form-control mt-2" placeholder="Date Of Birth" value={form.date_of_birth} onChange={e=>{setForm({...form,date_of_birth:e.target.value})
+                     setErrors({ ...errors, date_of_birth: "" });
+          }}/>
+{errors.date_of_birth && <small className="text-danger">{errors.date_of_birth}</small>}
+
           </div>
 
           <div className="col-12 col-md-6">
-            <input type="date" className="form-control" placeholder="Date of joining" value={form.date_of_joining} onChange={e=>setForm({...form, date_of_joining:e.target.value })}/>
+            <input type="date" className="form-control mt-2" placeholder="Date of joining" value={form.date_of_joining} onChange={e=>{setForm({...form, date_of_joining:e.target.value })
+          setErrors({ ...errors, date_of_joining: "" });
+          
+          }}/>
+{errors.date_of_joining && <small className="text-danger">{errors.date_of_joining}</small>}
+
           </div>
         </div>
 
         <div className="row g-2 mb-3">
           <div className="col-12 col-md-6">
-        <select className="form-select" value={form.gender} onChange={e=>setForm({...form,gender:e.target.value})}>
+        <select className="form-select mt-2" value={form.gender} onChange={e=>{setForm({...form,gender:e.target.value})
+  }}>
             <option value="">Gender</option>
             <option>Male</option>
               <option>Female</option>
@@ -218,7 +250,11 @@ const age=today.getFullYear()-dob.getFullYear();
           </div>
 
           <div className="col-12 col-md-6">
-            <input className="form-control" placeholder="Salary" value={form.salary} onChange={e =>setForm({...form,salary:e.target.value})}/>
+            <input className="form-control mt-2" placeholder="Salary" value={form.salary} onChange={e =>{setForm({...form,salary:e.target.value})
+          setErrors({ ...errors, salary: "" });
+          }}/>
+{errors.salary && <small className="text-danger">{errors.salary}</small>}
+
           </div>
         </div>
 
