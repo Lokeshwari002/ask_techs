@@ -2,7 +2,7 @@ import React, {useEffect,useState} from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const base_url = "http://localhost:5007/api";
+const base_url = "https://ask-techs.onrender.com/api";
 
 function Employeeform() {
   const[form,setForm]=useState({
@@ -211,9 +211,9 @@ const age=today.getFullYear()-dob.getFullYear();
         <div className="row g-2 mb-3">
           <div className="col-12 col-md-6">
         <select className="form-select" value={form.gender} onChange={e=>setForm({...form,gender:e.target.value})}>
-                  <option value="">Gender</option>
-                     <option>Male</option>
-                        <option>Female</option>
+            <option value="">Gender</option>
+            <option>Male</option>
+              <option>Female</option>
             </select>
           </div>
 
