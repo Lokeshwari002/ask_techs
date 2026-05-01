@@ -271,7 +271,10 @@ const age=today.getFullYear()-dob.getFullYear();
 <div className="table-responsive mt-3">
   <table className="table table-bordered table-striped text-center" style={{ minWidth: "900px" }}>
     <thead className="table-dark">
-             <tr><th>Name</th>
+             <tr>
+              <th>S.No</th>
+              <th>Code</th>
+             <th>Name</th>
               <th>Dept</th>
               <th>Designation</th>
               <th className="d-none d-md-table-cell">DOB</th>
@@ -285,6 +288,8 @@ const age=today.getFullYear()-dob.getFullYear();
   <tbody>
 {employees.map(emp => (
   <tr key={emp.id}>
+    <td>{emp.id}</td>
+  <td>{emp.code}</td>
   <td>{emp.name}</td>
   <td>{emp.department}</td>
   <td>{emp.designation}</td>
